@@ -2,15 +2,19 @@
 	autocrlf = input
 	editor = vim
 [user]
-	name = Benoit Guerout
+	name = Benoît Guérout
 	email = bguerout@gmail.com
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    interactive = auto
 [alias]
     st = status
     br = branch
     amend = commit --amend
     panic = "!f() { PANIC_SUFFIX=$(date +%s) && tar cvf ../git-panic-$PANIC_SUFFIX.tar *; }; f"
     info = !git remote show origin && echo --------- && git branch -a -vv
-    safepush = !echo "Lets do this : " && git willpush && git pull --rebase && mvn clean verify && git push
     track = branch --set-upstream
     whereis = branch --contains 
     redo = "!f() { git rebase -i $1^; }; f"
@@ -18,8 +22,3 @@
     need-merge=log --pretty=oneline dev..master
     willpush = "!f() { BRANCH=$(git symbolic-ref -q HEAD) && BRANCH=${BRANCH##refs/heads/};\
 git log origin/$BRANCH..HEAD --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative; }; f"
-[color]
-        diff = auto
-        status = auto
-        branch = auto
-        interactive = auto
