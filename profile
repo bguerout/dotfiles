@@ -1,16 +1,12 @@
 export HISTSIZE=50000
 export HISTFILESIZE=50000
-alias ll="ls -lah"
 
 #####
-# GIT
-# brew install bash-git-prompt
-#####
-source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
-if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
-    GIT_PROMPT_THEME=Default
-    source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
-fi
+#ALIAS
+######
+alias ll="ls -lah"
+alias getports="lsof -iTCP -sTCP:LISTEN -n -P"
+alias getip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 ######
 # JAVA
@@ -27,16 +23,26 @@ function findjdks() {
 }
 setjdk 1.8
 
-######
-# NODE
-######
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-nvm use 6.9.4
-
-######
-# BREW
-######
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
+####
+#GIT
+####
+source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+    GIT_PROMPT_THEME=Default
+    source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
 fi
+
+#####
+#NODE
+#####
+export NVM_DIR="/Users/bGuerout/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+nvm use 6
+
+#####
+#RUBY
+#####
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
