@@ -1,0 +1,17 @@
+<templateSet group="JavaScript">
+  <template name="dd" value="console.log($END$)" description="quicklog" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="then" value=".then(() =&gt; {&#10;    $END$&#10;})" description="quickthen" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+  <template name="catch" value=".catch(err =&gt; {&#10;    $END$&#10;})" description="quickcatch" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_SCRIPT" value="true" />
+    </context>
+  </template>
+</templateSet>
