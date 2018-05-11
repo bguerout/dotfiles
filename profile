@@ -7,6 +7,9 @@ export HISTFILESIZE=50000
 alias ll="ls -lah"
 alias getports="lsof -iTCP -sTCP:LISTEN -n -P"
 alias getip="dig +short myip.opendns.com @resolver1.opendns.com"
+findport () {
+    lsof -n -i:$1 | grep LISTEN
+}
 
 ######
 # JAVA

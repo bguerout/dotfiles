@@ -26,7 +26,7 @@
     redo = "!f() { git rebase -i $1^; }; f"
     plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     prune-all= "!f() { git fetch --prune && git branch --merged origin/master | grep -v master | xargs git branch -d; }; f"
-    share= "!f() { git push -u origin $(git rev-parse --abbrev-ref HEAD) && hub pull-request; }; f"
+    share= "!f() { git push -u origin $(git rev-parse --abbrev-ref HEAD) && hub pull-request --browse -b $1; }; f"
     serve = "!f() { git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths --port=$1 .git/; }; f"
     willpush = "!f() { BRANCH=$(git symbolic-ref -q HEAD) && BRANCH=${BRANCH##refs/heads/};\
 git log origin/$BRANCH..HEAD --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative; }; f"
