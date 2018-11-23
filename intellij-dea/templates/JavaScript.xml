@@ -1,5 +1,5 @@
 <templateSet group="JavaScript">
-  <template name="dd" value="console.log($END$)" description="quicklog" toReformat="false" toShortenFQNames="true">
+  <template name="log_json" value="console.log(JSON.stringify($END$,null,2))" description="quicklog" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="JAVA_SCRIPT" value="true" />
     </context>
