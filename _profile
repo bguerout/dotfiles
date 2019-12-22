@@ -72,7 +72,19 @@ export PATH=$PATH:~/dev/mongodb-osx-x86_64-4.0.1/bin
 #####
 #JAVA
 ####
-source ~/findjdks
+echo '################## JAVA ###################'
+# Change your JAVA_HOME
+function setjdk() {
+   if [ $# -ne 0 ];
+      then export JAVA_HOME=`/usr/libexec/java_home -v $@`;
+   fi;
+   java -version;
+}
+
+function findjdks() {
+ /usr/libexec/java_home -V
+}
+
 setjdk 1.8
 
 ####
