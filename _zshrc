@@ -18,9 +18,50 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
+#####
+# COMPLETION
+#####
+zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+fpath=(~/.zsh $fpath)
+autoload -Uz compinit && compinit
+
+#####
+# PROMPT
+##### 
++vi-git-updown() {
+  git rev-parse @{upstream} >/dev/null 2>&1 || return
+  local -a x; x=( $(git rev-list --left-right --count HEAD...@{upstream} ) )
+  hook_com[branch]+="%f" # end coloring
+  (( x[2] )) && hook_com[branch]+=" %B↓%b"
+  (( x[1] )) && hook_com[branch]+=" %B↑%b"
+  return 0
+}
+
++vi-git-untracked(){
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep '??' &> /dev/null ; then
+        # This will show the marker if there are any untracked files in repo.
+        # If instead you want to show the marker only if there are untracked
+        # files in $PWD, use:
+        #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
+        hook_com[staged]+='%F{5}+%f'
+    fi
+}
+
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:git*' formats '[%b %a%m%u%c]'
+zstyle ':vcs_info:git+post-backend:*' hooks git-updown
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+zstyle ':vcs_info:git*' stagedstr '%F{2}+%f'
+zstyle ':vcs_info:git*' unstagedstr '%F{1}+%f'
+precmd() { vcs_info }
+
+setopt PROMPT_SUBST
 NEWLINE=$'\n'
-PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{green}%/%f%b${NEWLINE}%# '
-REPORTTIME=3
+PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{green}%/%f%b ${vcs_info_msg_0_}${NEWLINE}> '
+#REPORTTIME=3
 
 ####
 #FUNCTIONS
@@ -83,11 +124,6 @@ function ssh {
 }
 
 #####
-#GIT
-#####
-source "/usr/local/opt/zsh-git-prompt/zshrc.sh"
-
-#####
 #JAVA
 #####
 function setjdk() {
@@ -107,6 +143,11 @@ function findjdks() {
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 export PATH="$PATH:$HOME/.rvm/bin"
+
+#####
+#MONGODB
+#####
+export PATH="$PATH:$HOME/dev/mongodb-macos-x86_64-4.2.2/bin"
 
 #####
 #RUBY
