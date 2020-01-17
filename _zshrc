@@ -32,8 +32,8 @@ autoload -Uz compinit && compinit
   git rev-parse @{upstream} >/dev/null 2>&1 || return
   local -a x; x=( $(git rev-list --left-right --count HEAD...@{upstream} ) )
   hook_com[branch]+="%f" # end coloring
-  (( x[2] )) && hook_com[branch]+=" %B↓%b"
-  (( x[1] )) && hook_com[branch]+=" %B↑%b"
+  (( x[2] )) && hook_com[branch]+=" %B↓${x[2]}%b"
+  (( x[1] )) && hook_com[branch]+=" %B↑${x[1]}%b"
   return 0
 }
 
@@ -142,6 +142,10 @@ function findjdks() {
 #####
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+#####
+#RUBY
+####
 export PATH="$PATH:$HOME/.rvm/bin"
 
 #####
