@@ -27,10 +27,15 @@ bindkey  "^[[3~"  delete-char
 # COMPLETION
 #####
 autoload -Uz compinit && compinit
+#bindkey -e
+zstyle ':completion:*:*:git:*' script ~/.git-completion.zsh
+fpath=(~/.zsh $fpath)
+zstyle :compinstall filename '/home/bguerout/.zshrc'
+eval "$(gh completion -s zsh)"
 
 #####
 # PROMPT
-##### 
+#####
 +vi-git-updown() {
   git rev-parse @{upstream} >/dev/null 2>&1 || return
   local -a x; x=( $(git rev-list --left-right --count HEAD...@{upstream} ) )
