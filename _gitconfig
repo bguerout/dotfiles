@@ -28,7 +28,8 @@
     whereis = branch --contains
     redo = "!f() { git rebase -i $1^; }; f"
     plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    prune-all= "!f() { CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git fetch --prune && git branch --merged origin/${1:-${CURRENT_BRANCH}} | grep -v master | grep -v ${1:-${CURRENT_BRANCH}} | xargs git branch -d; }; f"
-    share= "!f() { git push -u origin $(git rev-parse --abbrev-ref HEAD) && hub pull-request --browse -b ${1}; }; f"
+    gone= "!f() { git prune && git br -a -vv | grep gone | awk -F ' ' '{print $1}' | xargs -I {} git branch -D {}; }; f"
+    pr= "!f() { gh pr create --base ${1} --title $(git log -1 --pretty=%B) -w; }; f"
+    prw= "!f() { gh pr view --web; }; f"
     serve = "!f() { git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths --port=$1 .git/; }; f"
     willpush = "!f() { CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log origin/${CURRENT_BRANCH}..HEAD --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative; }; f"
