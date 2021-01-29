@@ -28,8 +28,8 @@
     whereis = branch --contains
     redo = "!f() { git rebase -i $1^; }; f"
     plog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    gone= "!f() { git prune && git br -a -vv | grep gone | awk -F ' ' '{print $1}' | xargs -I {} git branch -D {}; }; f"
-    pr= "!f() { gh pr create --base ${1} --title $(git log -1 --pretty=%B) -w; }; f"
+    purge= "!f() { git prune && git br -a -vv | grep gone | awk -F ' ' '{print $1}' | xargs -I {} git branch -D {}; }; f"
+    pr= "!f() { gh pr create --base $1 --title \"$(git log -1 --pretty=%B)\" -w; }; f"
     prw= "!f() { gh pr view --web; }; f"
     serve = "!f() { git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths --port=$1 .git/; }; f"
     willpush = "!f() { CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log origin/${CURRENT_BRANCH}..HEAD --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative; }; f"
